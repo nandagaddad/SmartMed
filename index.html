@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>SmartMed</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <h1>SmartMed Web App</h1>
+
+    <!-- Login Section -->
+    <div id="login-section">
+        <h2>Login</h2>
+        <input type="text" id="username" placeholder="Username">
+        <input type="password" id="password" placeholder="Password">
+        <button onclick="login()">Login</button>
+    </div>
+
+    <!-- Dashboard Section -->
+    <div id="dashboard" style="display:none;">
+        <h2>Welcome, <span id="role"></span></h2>
+
+        <!-- Medicine Search -->
+        <div id="medicine-section">
+            <h3>Search Medicine/Pharmacy</h3>
+            <select id="city-medicine" onchange="searchMedicine()">
+                <option value="">Select City</option>
+                <option>Bangalore</option>
+                <option>Chennai</option>
+            </select>
+            <div id="medicine-results"></div>
+        </div>
+
+        <!-- Doctor Search -->
+        <div id="doctor-section">
+            <h3>Search Doctors</h3>
+            <select id="city-doctor" onchange="searchDoctors()">
+                <option value="">Select City</option>
+                <option>Bangalore</option>
+                <option>Chennai</option>
+            </select>
+            <div id="doctor-results"></div>
+        </div>
+
+        <!-- Lab Search -->
+        <div id="lab-section">
+            <h3>Search Labs</h3>
+            <select id="city-lab" onchange="searchLabs()">
+                <option value="">Select City</option>
+                <option>Bangalore</option>
+                <option>Chennai</option>
+            </select>
+            <div id="lab-results"></div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
