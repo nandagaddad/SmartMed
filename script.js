@@ -32,7 +32,7 @@ function login() {
 }
 
 function showDashboard(role) {
-     document.getElementById("login-section").style.display = "none";
+    document.getElementById("login-section").style.display = "none";
     document.getElementById("user-dashboard").style.display = "none";
     document.getElementById("doctor-dashboard").style.display = "none";
     document.getElementById("lab-dashboard").style.display = "none";
