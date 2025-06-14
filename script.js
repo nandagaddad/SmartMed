@@ -32,9 +32,20 @@ function login() {
 }
 
 function showDashboard(role) {
-    document.getElementById("login-section").style.display = "none";
-    document.getElementById("dashboard").style.display = "block";
-    document.getElementById("role").innerText = role;
+     document.getElementById("login-section").style.display = "none";
+    document.getElementById("user-dashboard").style.display = "none";
+    document.getElementById("doctor-dashboard").style.display = "none";
+    document.getElementById("lab-dashboard").style.display = "none";
+
+    if (role === "user") {
+        document.getElementById("user-dashboard").style.display = "block";
+    } else if (role === "doctor") {
+        document.getElementById("doctor-dashboard").style.display = "block";
+        loadDoctorAppointments();
+    } else if (role === "lab") {
+        document.getElementById("lab-dashboard").style.display = "block";
+        loadLabAppointments();
+    }
 }
 
 function searchMedicine() {
@@ -77,21 +88,25 @@ function book(type, name) {
 }
 
 function loadDoctorAppointments() {
+     const currentUser = JSON.parse(localStorage.getItem("loggedInUser"));
     const appointments = JSON.parse(localStorage.getItem("appointments")) || [];
-    const doctorName = "Dr. Smith"; // match with username-doctor mapping if needed
     const doctorList = document.getElementById("doctor-list");
     doctorList.innerHTML = "";
-    appointments.filter(a => a.type === "doctor" && a.name === doctorName).forEach(app => {
-        doctorList.innerHTML += `<li>${app.name} on ${app.date} at ${app.time}</li>`;
-    });
+    appointments
+        .filter(a => a.type === "doctor" && a.name.toLowerCase().includes(currentUser.username.toLowerCase()))
+        .forEach(app => {
+            doctorList.innerHTML += `<li>${app.name} on ${app.date} at ${app.time}</li>`;
+        });
 }
 
 function loadLabAppointments() {
+     const currentUser = JSON.parse(localStorage.getItem("loggedInUser"));
     const appointments = JSON.parse(localStorage.getItem("appointments")) || [];
-    const labName = "LabCorp"; // match with username-lab mapping if needed
     const labList = document.getElementById("lab-list");
     labList.innerHTML = "";
-    appointments.filter(a => a.type === "lab" && a.name === labName).forEach(app => {
-        labList.innerHTML += `<li>${app.name} on ${app.date} at ${app.time}</li>`;
-    });
+    appointments
+        .filter(a => a.type === "lab" && a.name.toLowerCase().includes(currentUser.username.toLowerCase()))
+        .forEach(app => {
+            labList.innerHTML += `<li>${app.name} on ${app.date} at ${app.time}</li>`;
+        });
 }
