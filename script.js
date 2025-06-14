@@ -75,3 +75,23 @@ function book(type, name) {
     localStorage.setItem("appointments", JSON.stringify(appointments));
     alert("Appointment booked with " + name + " on " + date + " at " + time);
 }
+
+function loadDoctorAppointments() {
+    const appointments = JSON.parse(localStorage.getItem("appointments")) || [];
+    const doctorName = "Dr. Smith"; // match with username-doctor mapping if needed
+    const doctorList = document.getElementById("doctor-list");
+    doctorList.innerHTML = "";
+    appointments.filter(a => a.type === "doctor" && a.name === doctorName).forEach(app => {
+        doctorList.innerHTML += `<li>${app.name} on ${app.date} at ${app.time}</li>`;
+    });
+}
+
+function loadLabAppointments() {
+    const appointments = JSON.parse(localStorage.getItem("appointments")) || [];
+    const labName = "LabCorp"; // match with username-lab mapping if needed
+    const labList = document.getElementById("lab-list");
+    labList.innerHTML = "";
+    appointments.filter(a => a.type === "lab" && a.name === labName).forEach(app => {
+        labList.innerHTML += `<li>${app.name} on ${app.date} at ${app.time}</li>`;
+    });
+}
