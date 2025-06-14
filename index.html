@@ -17,24 +17,22 @@
     </div>
 
     <!-- Dashboard Section -->
-    <div id="dashboard" style="display:none;">
+    <div id="user-dashboard" class="hidden" style="display: none;">
         <h2>Welcome, <span id="role"></span></h2>
 
         <!-- Medicine Search -->
-        <div id="medicine-section">
+        
             <h3>Search Medicine/Pharmacy</h3>
             <select id="city-medicine" onchange="searchMedicine()">
                 <option value="">Select City</option>
                 <option>Bangalore</option>
                 <option>Chennai</option>
-                <option>Dharwad</option>
-                <option>Hubli</option>
             </select>
             <div id="medicine-results"></div>
-        </div>
+        
 
         <!-- Doctor Search -->
-        <div id="doctor-section">
+        
             <h3>Search Doctors</h3>
             <select id="city-doctor" onchange="searchDoctors()">
                 <option value="">Select City</option>
@@ -42,10 +40,10 @@
                 <option>Chennai</option>
             </select>
             <div id="doctor-results"></div>
-        </div>
+        
 
         <!-- Lab Search -->
-        <div id="lab-section">
+        
             <h3>Search Labs</h3>
             <select id="city-lab" onchange="searchLabs()">
                 <option value="">Select City</option>
@@ -53,11 +51,11 @@
                 <option>Chennai</option>
             </select>
             <div id="lab-results"></div>
-        </div>
+        
     </div>
 
      <!-- Doctor Dashboard -->
-    <div id="doctor-dashboard" style="display:none;">
+    <div id="doctor-dashboard" class="hidden" style="display: none;">
         <h2>Welcome Doctor</h2>
         <div id="doctor-appointments">
             <h3>Your Appointments</h3>
@@ -66,14 +64,14 @@
     </div>
 
     <!-- Lab Dashboard -->
-    <div id="lab-dashboard" style="display:none;">
+    <div id="lab-dashboard" class="hidden" style="display: none;">
         <h2>Welcome Lab</h2>
         <div id="lab-appointments">
             <h3>Your Lab Bookings</h3>
             <ul id="lab-list"></ul>
         </div>
     </div>
-
+    
     <script src="script.js"></script>
 </body>
 </html>
