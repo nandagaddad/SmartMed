@@ -23,14 +23,11 @@
         <!-- Medicine Search -->
         
             <h3>Search Medicine/Pharmacy</h3>
-            <select id="city-medicine" onchange="searchMedicine()">
-                <option value="">Select City</option>
-                <option>Bangalore</option>
-                <option>Chennai</option>
-            </select>
-            <div id="medicine-results"></div>
+            <input type="text" id="searchInput" placeholder="Enter location..." oninput="filterShops()" />
+            <input type="text" id="medicineInput" placeholder="Search by medicine name..." oninput="filterMedicine()" />
+            <ul id="resultList"></ul> 
+            <ul id="medicineResult"></ul>
         
-
         <!-- Doctor Search -->
         
             <h3>Search Doctors</h3>

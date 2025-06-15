@@ -4,9 +4,23 @@ const users = [
     { username: "lab1", password: "pass3", role: "lab" }
 ];
 
-const medicines = [
-    { name: "Paracetamol", pharmacy: "City Medics", location: "Bangalore" },
-    { name: "Amoxicillin", pharmacy: "HealthPlus", location: "Chennai" }
+const medicalShops = [
+  {
+    name: "CityMed",
+    location: "Bangalore",
+    medicines: [
+      { name: "Paracetamol", quantity: 25 },
+      { name: "Ibuprofen", quantity: 15 }
+    ]
+  },
+  {
+    name: "HealthPlus",
+    location: "Chennai",
+    medicines: [
+      { name: "Amoxicillin", quantity: 30 },
+      { name: "Dolo 650", quantity: 20 }
+    ]
+  }
 ];
 
 const doctors = [
@@ -48,14 +62,59 @@ function showDashboard(role) {
     }
 }
 
-function searchMedicine() {
-    const city = document.getElementById("city-medicine").value;
-    const resultDiv = document.getElementById("medicine-results");
-    resultDiv.innerHTML = "";
-    medicines.filter(m => m.location === city).forEach(m => {
-        resultDiv.innerHTML += `<p>${m.name} - ${m.pharmacy}</p>`;
-    });
-}
+function filterShops() {
+      const input = document.getElementById("searchInput").value.toLowerCase();
+      const resultList = document.getElementById("resultList");
+
+      // Clear previous results
+      resultList.innerHTML = "";
+
+      // Filter and display results
+      const filtered = medicalShops.filter(shop => 
+        shop.location.toLowerCase().includes(input)
+      );
+
+      filtered.forEach(shop => {
+        const li = document.createElement("li");
+        li.textContent = `${shop.name} - ${shop.location}`;
+        resultList.appendChild(li);
+      });
+
+      if (filtered.length === 0 && input !== "") {
+        const li = document.createElement("li");
+        li.textContent = "No matching shops found.";
+        resultList.appendChild(li);
+      }
+    }
+
+function filterMedicine() {
+      const input = document.getElementById("medicineInput").value.toLowerCase();
+      const resultList = document.getElementById("medicineResult");
+      resultList.innerHTML = "";
+
+      const filtered = medicalShops.filter(shop =>
+        shop.medicines.some(med =>
+          med.name.toLowerCase().includes(input)
+        )
+      );
+
+      filtered.forEach(shop => {
+        const matchingMeds = shop.medicines.filter(med =>
+          med.name.toLowerCase().includes(input)
+        );
+
+        const li = document.createElement("li");
+        li.innerHTML = `<strong>${shop.name}</strong> - ${shop.location}<br>
+          Medicines: ${matchingMeds.map(m => m.name + " (" + m.quantity + ")").join(", ")}`;
+        resultList.appendChild(li);
+      });
+
+      if (filtered.length === 0 && input !== "") {
+        const li = document.createElement("li");
+        li.textContent = "No matching medicines found.";
+        resultList.appendChild(li);
+      }
+    }
 
 function searchDoctors() {
     const city = document.getElementById("city-doctor").value;
