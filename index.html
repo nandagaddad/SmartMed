@@ -19,7 +19,8 @@
     <!-- Dashboard Section -->
     <div id="user-dashboard" class="hidden" style="display: none;">
         <h2>Welcome, <span id="role"></span></h2>
-
+        <div class="container">  
+            <div class="part">  
         <!-- Medicine Search -->
         
             <h3>Search Medicine/Pharmacy</h3>
@@ -29,24 +30,24 @@
             <ul id="resultList"></ul> 
             <h4>Medicines</h4>
             <ul id="medicineResult"></ul>
-        
+            </div>
         <!-- Doctor Search -->
-        
+            <div class="part">
             <h3>Search Doctors</h3>
             <input type="text" id="specializationInput" placeholder="Search Doctors by Specialization" onkeyup="searchDoctors()" />
             <div id="doctor-results"></div>
-        
-
+            </div>
         <!-- Lab Search -->
-        
-            <h3>Search Labs</h3>
-            <select id="city-lab" onchange="searchLabs()">
-                <option value="">Select City</option>
-                <option>Bangalore</option>
-                <option>Chennai</option>
-            </select>
-            <div id="lab-results"></div>
-        
+            <div class="part">
+            <h3>Search Labs/Tests</h3>
+            <input type="text" id="labSearchInput" placeholder="Enter location (e.g., Saptapur)" oninput="filterLabs()">
+            <input type="text" id="testSearchInput" placeholder="Enter test name (e.g., MRI)" oninput="filterTests()">
+            <h4>Lab/Scan Centers</h4>
+            <ul id="labResultList"></ul>
+            <h4>Tests/Scans</h4>
+            <ul id="testResultList"></ul>
+            </div>
+        </div>
     </div>
 
      <!-- Doctor Dashboard -->
