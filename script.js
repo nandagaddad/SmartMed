@@ -3,29 +3,63 @@ const users = [
     { username: "doctor1", password: "pass2", role: "doctor" },
     { username: "lab1", password: "pass3", role: "lab" }
 ];
-
 const medicalShops = [
   {
-    name: "CityMed",
-    location: "Bangalore",
+    name: "Vignesh Medicals",
+    location : "CTS No. 1204, Maratha Colony, Dharwad",
     medicines: [
-      { name: "Paracetamol", quantity: 25 },
-      { name: "Ibuprofen", quantity: 15 }
+      { name : "Levocetirizine", quantity : 35 },
+      { name: "Aspirin", quantity: 20 },
+      { name: "ORS Sachets", quantity: 60 }
     ]
   },
   {
-    name: "HealthPlus",
-    location: "Chennai",
+    name: "WellCare Pharmacy",
+    location : "Basaveshwara Road, Near CBT, Dharwad",
+    medicines : [
+      { name : "Rantac", quantity : 45 },
+      { name : "Vitamin C Tablets", quantity : 30 },
+      { name: "Domperidone", quantity : 25 }
+    ]
+  },
+  {
+    name: "Sanjeevini Medical & General Stores",
+    location : "Near SDM College, Kalabhavan Road, Dharwad",
     medicines: [
-      { name: "Amoxicillin", quantity: 30 },
-      { name: "Dolo 650", quantity: 20 }
+      { name: "Chlorpheniramine", quantity: 18 },
+      { name: "Amoxiclav", quantity: 20 },
+      { name: "Sinarest", quantity: 28 }
+    ]
+  },
+  {
+    name: "Dharwad Health Mart",
+    location: "Rajendra Nagar, Hubli-Dharwad Bypass, Dharwad",
+    medicines: [
+      { name: "Glimepiride", quantity: 22 },
+      { name: "Losartan", quantity: 16 },
+      { name: "Becosules", quantity: 40 }
+    ]
+  },
+  {
+    name: "Shakti Pharma",
+    location: "Opp. District Court, Malmaddi, Dharwad",
+    medicines: [
+      { name: "Azithral",quantity: 12 },
+      { name: "Ciplox D Eye Drops", quantity: 10 },
+      { name: "Vicks Inhaler",quantity: 50 }
     ]
   }
 ];
 
 const doctors = [
-    { name: "Dr. Smith", specialization: "Cardiologist", location: "Bangalore" },
-    { name: "Dr. Ravi", specialization: "Dermatologist", location: "Chennai" }
+    { name: "Dr. Asha Kulkarni", specialization: "Pediatrician", location: "Opp. District Court, Malmaddi, Dharwad" },
+    { name: "Dr. Nitin Desai", specialization: "Orthopedic", location: "Near Civil Hospital, Line Bazaar, Dharwad" },
+    { name: "Dr. Shilpa Patil", specialization: "Gynecologist", location: "KCD Circle, Vidyagiri, Dharwad" },
+    { name: "Dr. Anand Joshi", specialization: "Neurologist", location: "Dadar West, Mumbai" },
+    { name: "Dr. Veena Reddy", specialization: "ENT Specialist", location: "Beside KIMS Hospital, PB Road, Dharwad" },
+    { name: "Dr. Rohit Shetty", specialization: "Dentist", location: "Gokul Road, Hubli" },
+    { name: "Dr. Priya Nayak", specialization: "Cardiologist", location: "Station Road, Jubilee Circle, Dharwad" },
+    { name: "Dr. Manjunath Hiremath", specialization: "Dermatologist", location: "Subhash Road, Near Bus Stand, Dharwad" }
 ];
 
 const labs = [
@@ -68,7 +102,7 @@ function filterShops() {
 
       // Clear previous results
       resultList.innerHTML = "";
-
+    if (input === "") return;
       // Filter and display results
       const filtered = medicalShops.filter(shop => 
         shop.location.toLowerCase().includes(input)
@@ -91,7 +125,7 @@ function filterMedicine() {
       const input = document.getElementById("medicineInput").value.toLowerCase();
       const resultList = document.getElementById("medicineResult");
       resultList.innerHTML = "";
-
+    if (input === "") return;
       const filtered = medicalShops.filter(shop =>
         shop.medicines.some(med =>
           med.name.toLowerCase().includes(input)
@@ -117,11 +151,19 @@ function filterMedicine() {
     }
 
 function searchDoctors() {
-    const city = document.getElementById("city-doctor").value;
+    const specialization = document.getElementById("specializationInput").value.trim().toLowerCase();
     const resultDiv = document.getElementById("doctor-results");
     resultDiv.innerHTML = "";
-    doctors.filter(d => d.location === city).forEach(d => {
-        resultDiv.innerHTML += `<p>${d.name} - ${d.specialization} 
+    if (specialization  === "") return;
+
+    const matchedDoctors = doctors.filter(d => d.specialization.toLowerCase().includes(specialization));
+
+    if (matchedDoctors.length === 0 && specialization !== "") {
+        resultDiv.innerHTML = "<p>No doctors found.</p>";
+    }
+
+    matchedDoctors.forEach(d => {
+        resultDiv.innerHTML += `<p>${d.name} - ${d.specialization} - Location:${d.location}
         <button onclick="book('doctor', '${d.name}')">Book</button></p>`;
     });
 }
