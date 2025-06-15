@@ -172,7 +172,7 @@ function showDashboard(role) {
     document.getElementById("user-dashboard").style.display = "none";
     document.getElementById("doctor-dashboard").style.display = "none";
     document.getElementById("lab-dashboard").style.display = "none";
-
+    document.getElementById("role").textContent = role.charAt(0).toUpperCase() + role.slice(1);
     if (role === "user") {
         document.getElementById("user-dashboard").style.display = "block";
     } else if (role === "doctor") {
@@ -307,16 +307,6 @@ function filterLabs() {
       }
     }
 
-function searchLabs() {
-    const city = document.getElementById("city-lab").value;
-    const resultDiv = document.getElementById("lab-results");
-    resultDiv.innerHTML = "";
-    labs.filter(l => l.location === city).forEach(l => {
-        resultDiv.innerHTML += `<p>${l.name} - ${l.test} 
-        <button onclick="book('lab', '${l.name}')">Book</button></p>`;
-    });
-}
-
 function book(type, name) {
     const date = prompt("Enter appointment date (YYYY-MM-DD):");
     const time = prompt("Enter time (HH:MM):");
@@ -328,7 +318,7 @@ function book(type, name) {
 }
 
 function loadDoctorAppointments() {
-     const currentUser = JSON.parse(localStorage.getItem("loggedInUser"));
+    const currentUser = JSON.parse(localStorage.getItem("loggedInUser"));
     const appointments = JSON.parse(localStorage.getItem("appointments")) || [];
     const doctorList = document.getElementById("doctor-list");
     doctorList.innerHTML = "";
