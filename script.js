@@ -4,7 +4,7 @@ const users = [
     { username: "lab1", password: "pass3", role: "lab" },
     { username: "pharmacy1", password: "pass4", role: "pharmacy" }
 ];
-const medicalShops = [
+let medicalShops = JSON.parse(localStorage.getItem("medicalShops")) || [
   {
     name: "Vignesh Medicals",
     location : "CTS No. 1204, Maratha Colony, Dharwad",
@@ -419,6 +419,7 @@ function updateLabAppointments() {
 
 function loadPharmacyStock() {
     const currentUser = JSON.parse(localStorage.getItem("loggedInUser"));
+     const medicalShopsData = JSON.parse(localStorage.getItem("medicalShops")) || medicalShops;
     const shop = medicalShops.find(s => s.username === currentUser.username);
     const stockList = document.getElementById("pharmacy-stock-list");
     stockList.innerHTML = "";
@@ -449,6 +450,7 @@ console.log("Shop found:", shop);
 
 function updatePharmacyStock() {
     const currentUser = JSON.parse(localStorage.getItem("loggedInUser"));
+    let medicalShopsData = JSON.parse(localStorage.getItem("medicalShops")) || medicalShops;
     const shop = medicalShops.find(s => s.username === currentUser.username);
     if (!shop) return;
 
@@ -458,7 +460,7 @@ function updatePharmacyStock() {
             med.quantity = qty;
         }
     });
-
+    localStorage.setItem("medicalShops", JSON.stringify(medicalShopsData));
     alert("Stock updated successfully!");
     loadPharmacyStock();
 }
