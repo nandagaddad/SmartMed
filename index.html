@@ -33,7 +33,7 @@
 
     <!-- Dashboard Section -->
     <div id="user-dashboard" class="hidden" style="display: none;">
-        <h2>Welcome <span id="role"></span></h2>
+        <h2>Welcome, <span id="display-name"></span> !</h2>
         <div class="container">  
             <div class="part">  
         <!-- Medicine Search -->
@@ -67,7 +67,7 @@
 
      <!-- Doctor Dashboard -->
     <div id="doctor-dashboard" class="hidden" style="display: none;">
-        <h2>Welcome Doctor</h2>
+        <h2>Welcome, <span id="display-name"></span> !</h2>
         <div id="doctor-appointments">
             <h3>Your Appointments</h3>
             <form id="appointment-form">
@@ -78,7 +78,7 @@
 
     <!-- Lab Dashboard -->
     <div id="lab-dashboard" class="hidden" style="display: none;">
-        <h2>Welcome Lab</h2>
+        <h2>Welcome, <span id="display-name"></span> !</h2>
         <div id="lab-appointments">
         <h3>Your Lab Bookings</h3>
         <form id="lab-appointment-form">
@@ -90,7 +90,7 @@
       </div> 
        <!-- Pharmacy Dashboard --> 
     <div id="pharmacy-dashboard" class="hidden" style="display: none;">
-    <h2>Welcome Pharmacy</h2>
+    <h2>Welcome, <span id="display-name"></span> !</h2>
     <div id="pharmacy-stock">
         <h3>Manage Stock</h3>
         <form id="pharmacy-form">
@@ -98,7 +98,29 @@
             <button type="button" onclick="updatePharmacyStock()">Update Stock</button>
         </form>
     </div>
-  
+    <!-- Booking Popup -->
+<div id="booking-popup" style="
+  display: none;
+  position: fixed;
+  top: 20%;
+  left: 50%;
+  transform: translateX(-50%);
+  background: white;
+  padding: 16px;
+  border: 2px solid black;
+  box-shadow: 0 0 10px rgba(0,0,0,0.2);
+  z-index: 999;
+">
+  <h3>Confirm Appointment</h3>
+  <label>Date:</label><br>
+  <input type="date" id="appointment-date"><br><br>
+  <label>Time:</label><br>
+  <input type="time" id="appointment-time"><br><br>
+  <button onclick="confirmBooking()">Confirm</button>
+  <button onclick="cancelBooking()">Cancel</button>
+</div>
+
+
     <script src="script.js"></script>
 </body>
 </html>

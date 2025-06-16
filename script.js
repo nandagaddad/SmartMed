@@ -1,14 +1,38 @@
 const users = [
-    { username: "user1", password: "pass1", role: "user" },
-    { username: "doctor1", password: "pass2", role: "doctor" },
-    { username: "lab1", password: "pass3", role: "lab" },
-    { username: "pharmacy1", password: "pass4", role: "pharmacy" }
+    { username: "user1", password: "upass1", role: "user" },
+    { username: "user2", password: "upass2", role: "user" },
+
+    { username: "doctor1", password: "dpass1", role: "doctor" },
+    { username: "doctor2", password: "dpass2", role: "doctor" },
+    { username: "doctor3", password: "dpass3", role: "doctor" },
+    { username: "doctor4", password: "dpass4", role: "doctor" },
+    { username: "doctor5", password: "dpass5", role: "doctor" },
+    { username: "doctor6", password: "dpass6", role: "doctor" },
+    { username: "doctor7", password: "dpass7", role: "doctor" },
+    { username: "doctor8", password: "dpass8", role: "doctor" },
+
+    { username: "lab1", password: "lpass1", role: "lab" },
+    { username: "lab2", password: "lpass2", role: "lab" },
+    { username: "lab3", password: "lpass3", role: "lab" },
+    { username: "lab4", password: "lpass4", role: "lab" },
+    { username: "lab5", password: "lpass5", role: "lab" },
+    { username: "lab6", password: "lpass6", role: "lab" },
+    { username: "lab7", password: "lpass7", role: "lab" },
+    { username: "lab8", password: "lpass8", role: "lab" },
+    { username: "lab9", password: "lpass9", role: "lab" },
+    { username: "lab10", password: "lpass10", role: "lab" },
+
+    { username: "pharmacy1", password: "ppass1", role: "pharmacy" },
+    { username: "pharmacy2", password: "ppass2", role: "pharmacy" },
+    { username: "pharmacy3", password: "ppass3", role: "pharmacy" },
+    { username: "pharmacy4", password: "ppass4", role: "pharmacy" },
+    { username: "pharmacy5", password: "ppass5", role: "pharmacy" }
 ];
 let medicalShops = JSON.parse(localStorage.getItem("medicalShops")) || [
   {
     name: "Vignesh Medicals",
     location : "CTS No. 1204, Maratha Colony, Dharwad",
-        username: "pharmacy1",
+    username: "pharmacy1",
     medicines: [
       { name : "Levocetirizine", quantity : 35 },
       { name: "Aspirin", quantity: 20 },
@@ -18,6 +42,7 @@ let medicalShops = JSON.parse(localStorage.getItem("medicalShops")) || [
   {
     name: "WellCare Pharmacy",
     location : "Basaveshwara Road, Near CBT, Dharwad",
+    username: "pharmacy2",
     medicines : [
       { name : "Rantac", quantity : 45 },
       { name : "Vitamin C Tablets", quantity : 30 },
@@ -27,6 +52,7 @@ let medicalShops = JSON.parse(localStorage.getItem("medicalShops")) || [
   {
     name: "Sanjeevini Medical & General Stores",
     location : "Near SDM College, Kalabhavan Road, Dharwad",
+    username: "pharmacy3",
     medicines: [
       { name: "Chlorpheniramine", quantity: 18 },
       { name: "Amoxiclav", quantity: 20 },
@@ -36,6 +62,7 @@ let medicalShops = JSON.parse(localStorage.getItem("medicalShops")) || [
   {
     name: "Dharwad Health Mart",
     location: "Rajendra Nagar, Hubli-Dharwad Bypass, Dharwad",
+    username: "pharmacy4",
     medicines: [
       { name: "Glimepiride", quantity: 22 },
       { name: "Losartan", quantity: 16 },
@@ -45,6 +72,7 @@ let medicalShops = JSON.parse(localStorage.getItem("medicalShops")) || [
   {
     name: "Shakti Pharma",
     location: "Opp. District Court, Malmaddi, Dharwad",
+    username: "pharmacy5",
     medicines: [
       { name: "Azithral",quantity: 12 },
       { name: "Ciplox D Eye Drops", quantity: 10 },
@@ -55,13 +83,13 @@ let medicalShops = JSON.parse(localStorage.getItem("medicalShops")) || [
 
 const doctors = [
     { name: "Dr. Asha Kulkarni", specialization: "Pediatrician", location: "Opp. District Court, Malmaddi, Dharwad", username : "doctor1" },
-    { name: "Dr. Nitin Desai", specialization: "Orthopedic", location: "Near Civil Hospital, Line Bazaar, Dharwad" },
-    { name: "Dr. Shilpa Patil", specialization: "Gynecologist", location: "KCD Circle, Vidyagiri, Dharwad" },
-    { name: "Dr. Anand Joshi", specialization: "Neurologist", location: "Dadar West, Mumbai" },
-    { name: "Dr. Veena Reddy", specialization: "ENT Specialist", location: "Beside KIMS Hospital, PB Road, Dharwad" },
-    { name: "Dr. Rohit Shetty", specialization: "Dentist", location: "Gokul Road, Hubli" },
-    { name: "Dr. Priya Nayak", specialization: "Cardiologist", location: "Station Road, Jubilee Circle, Dharwad" },
-    { name: "Dr. Manjunath Hiremath", specialization: "Dermatologist", location: "Subhash Road, Near Bus Stand, Dharwad" }
+    { name: "Dr. Nitin Desai", specialization: "Orthopedic", location: "Near Civil Hospital, Line Bazaar, Dharwad", username : "doctor2" },
+    { name: "Dr. Shilpa Patil", specialization: "Gynecologist", location: "KCD Circle, Vidyagiri, Dharwad" , username : "doctor3"},
+    { name: "Dr. Anand Joshi", specialization: "Neurologist", location: "Dadar West, Mumbai", username : "doctor4" },
+    { name: "Dr. Veena Reddy", specialization: "ENT Specialist", location: "Beside KIMS Hospital, PB Road, Dharwad", username : "doctor5" },
+    { name: "Dr. Rohit Shetty", specialization: "Dentist", location: "Gokul Road, Hubli", username : "doctor6" },
+    { name: "Dr. Priya Nayak", specialization: "Cardiologist", location: "Station Road, Jubilee Circle, Dharwad", username : "doctor7" },
+    { name: "Dr. Manjunath Hiremath", specialization: "Dermatologist", location: "Subhash Road, Near Bus Stand, Dharwad", username : "doctor8" }
 ];
 
 const labs = [
@@ -82,7 +110,7 @@ const labs = [
       { name: "Blood Sugar Test", cost: 150 },
       { name: "HbA1c", cost: 350 },
       { name: "Lipid Profile", cost: 500 }
-    ]
+    ],username: "lab2"
   },
   {
     name: "Aarthi Scans and Labs",
@@ -91,7 +119,7 @@ const labs = [
       { name: "CT Scan", cost: 2200 },
       { name: "MRI Brain", cost: 4500 },
       { name: "X-Ray Chest", cost: 300 }
-    ]
+    ], username: "lab3"
   },
   {
     name: "Shree Diagnostics",
@@ -100,7 +128,7 @@ const labs = [
       { name: "Urine Test", cost: 100 },
       { name: "Vitamin D Test", cost: 800 },
       { name: "Iron Studies", cost: 450 }
-    ]
+    ], username: "lab4"
   },
   {
     name: "Akshay Diagnostic Centre",
@@ -109,7 +137,7 @@ const labs = [
       { name: "Ultrasound Abdomen", cost: 900 },
       { name: "ECG", cost: 250 },
       { name: "TMT Test", cost: 1000 }
-    ]
+    ], username: "lab5"
   },
   {
     name: "Sanjeevini Lab & Scan",
@@ -118,7 +146,7 @@ const labs = [
       { name: "Liver Function Test", cost: 600 },
       { name: "KFT", cost: 500 },
       { name: "Blood Grouping", cost: 100 }
-    ]
+    ], username: "lab6"
   },
   {
     name: "Suresh Diagnostics",
@@ -127,7 +155,7 @@ const labs = [
       { name: "Urine Culture", cost: 300 },
       { name: "CBC", cost: 280 },
       { name: "Dengue Test", cost: 600 }
-    ]
+    ], username: "lab7"
   },
   {
     name: "Navjeevan Lab",
@@ -136,7 +164,7 @@ const labs = [
       { name: "Malaria Test", cost: 250 },
       { name: "Widal Test", cost: 200 },
       { name: "CRP Test", cost: 400 }
-    ]
+    ], username: "lab8"
   },
   {
     name: "City Scans & Imaging",
@@ -145,7 +173,7 @@ const labs = [
       { name: "MRI Spine", cost: 5500 },
       { name: "CT Chest", cost: 3000 },
       { name: "X-Ray Knee", cost: 350 }
-    ]
+    ], username: "lab9"
   },
   {
     name: "Green Health Labs",
@@ -154,7 +182,7 @@ const labs = [
       { name: "Complete Health Checkup", cost: 2500 },
       { name: "Diabetic Package", cost: 1800 },
       { name: "Fever Panel", cost: 900 }
-    ]
+    ], username: "lab10"
   }
 ];
 
@@ -180,7 +208,20 @@ function showDashboard(role) {
     document.getElementById("doctor-dashboard").style.display = "none";
     document.getElementById("lab-dashboard").style.display = "none";
     document.getElementById("pharmacy-dashboard").style.display = "none"; 
-    document.getElementById("role").textContent = role.charAt(0).toUpperCase() + role.slice(1);
+    const user = JSON.parse(localStorage.getItem("loggedInUser"));
+    let displayName = user.username;
+        if (role === "doctor") {
+        const doc = doctors.find(d => d.username === user.username);
+        if (doc) displayName = doc.name;
+    } else if (role === "lab") {
+        const lab = labs.find(l => l.username === user.username);
+        if (lab) displayName = lab.name;
+    } else if (role === "pharmacy") {
+        const shop = medicalShops.find(s => s.username === user.username);
+        if (shop) displayName = shop.name;
+    }
+    document.querySelectorAll("#display-name").forEach(el => el.textContent = displayName);
+    //document.getElementById("role").textContent = role.charAt(0).toUpperCase() + role.slice(1);
     if (role === "user") {
         document.getElementById("user-dashboard").style.display = "block";
     } else if (role === "doctor") {
@@ -321,7 +362,7 @@ function filterLabs() {
         resultList.appendChild(li);
       }
     }
-
+/*
 function book(type, name) {
     const date = prompt("Enter appointment date (YYYY-MM-DD):");
     const time = prompt("Enter time (HH:MM):");
@@ -344,7 +385,65 @@ function book(type, name) {
     localStorage.setItem("appointments", JSON.stringify(appointments));
     alert("Appointment booked with " + name + " on " + date + " at " + time);
     console.log("Booked:", appointment);
+}*/
+let currentBooking = null;
+
+function book(type, name) {
+    currentBooking = { type, name };
+    document.getElementById("appointment-date").value = "";
+    document.getElementById("appointment-time").value = "";
+    document.getElementById("booking-popup").style.display = "block";
 }
+function cancelBooking() {
+    document.getElementById("booking-popup").style.display = "none";
+    currentBooking = null;
+}
+
+function confirmBooking() {
+    const dateInput = document.getElementById("appointment-date").value;
+    const timeInput = document.getElementById("appointment-time").value;
+
+    if (!dateInput || !timeInput) {
+        alert("Please enter both date and time.");
+        return;
+    }
+
+    const appointmentDateTime = new Date(`${dateInput}T${timeInput}`);
+    const now = new Date();
+
+    if (appointmentDateTime <= now) {
+        alert("Please select a future date and time.");
+        return;
+    }
+
+    let assignedUsername = null;
+
+    if (currentBooking.type === "doctor") {
+        const doctor = doctors.find(d => d.name === currentBooking.name);
+        assignedUsername = doctor ? doctor.username : null;
+    } else if (currentBooking.type === "lab") {
+        const lab = labs.find(l => l.name === currentBooking.name);
+        assignedUsername = lab ? lab.username : null;
+    }
+
+    const appointment = {
+        type: currentBooking.type,
+        name: currentBooking.name,
+        username: assignedUsername,
+        date: dateInput,
+        time: timeInput
+    };
+
+    let appointments = JSON.parse(localStorage.getItem("appointments")) || [];
+    appointments.push(appointment);
+    localStorage.setItem("appointments", JSON.stringify(appointments));
+
+    alert("Appointment booked successfully!");
+
+    document.getElementById("booking-popup").style.display = "none";
+    currentBooking = null;
+}
+
 
 function loadDoctorAppointments() {
     const currentUser = JSON.parse(localStorage.getItem("loggedInUser"));
@@ -395,8 +494,12 @@ function updateAppointments() {
         const isChecked = [...checkboxes].some(cb => cb.dataset.index == index && cb.checked);
         return !(isMine && isChecked); // Keep all except checked ones
     });
-
-    localStorage.setItem("appointments", JSON.stringify(updatedAppointments));
+        if (updatedAppointments.length === 0) {
+        localStorage.removeItem("appointments");
+    } else {
+        localStorage.setItem("appointments", JSON.stringify(updatedAppointments));
+    }
+    //localStorage.setItem("appointments", JSON.stringify(updatedAppointments));
     alert("Selected appointments removed.");
     loadDoctorAppointments(); // Refresh list
 }
@@ -411,8 +514,12 @@ function updateLabAppointments() {
         const isChecked = [...checkboxes].some(cb => cb.dataset.index == index && cb.checked);
         return !(isMine && isChecked); // Remove if it's lab's own and is checked
     });
-
-    localStorage.setItem("appointments", JSON.stringify(updatedAppointments));
+        if (updatedAppointments.length === 0) {
+        localStorage.removeItem("appointments");
+    } else {
+        localStorage.setItem("appointments", JSON.stringify(updatedAppointments));
+    }
+    //localStorage.setItem("appointments", JSON.stringify(updatedAppointments));
     alert("Selected lab appointments removed.");
     loadLabAppointments(); // Refresh lab list
 }
