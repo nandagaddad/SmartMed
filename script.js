@@ -1,12 +1,14 @@
 const users = [
     { username: "user1", password: "pass1", role: "user" },
     { username: "doctor1", password: "pass2", role: "doctor" },
-    { username: "lab1", password: "pass3", role: "lab" }
+    { username: "lab1", password: "pass3", role: "lab" },
+    { username: "pharmacy1", password: "pass4", role: "pharmacy" }
 ];
-const medicalShops = [
+let medicalShops = JSON.parse(localStorage.getItem("medicalShops")) || [
   {
     name: "Vignesh Medicals",
     location : "CTS No. 1204, Maratha Colony, Dharwad",
+        username: "pharmacy1",
     medicines: [
       { name : "Levocetirizine", quantity : 35 },
       { name: "Aspirin", quantity: 20 },
@@ -70,7 +72,8 @@ const labs = [
       { name: "Thyroid Profile", cost: 400 },
       { name: "CBC", cost: 300 },
       { name: "Liver Function Test", cost: 600 }
-    ]
+    ],
+    username: "lab1"
   },
   {
     name: "Dr. Lal PathLabs",
@@ -165,6 +168,9 @@ function login() {
     } else {
         alert("Invalid credentials");
     }
+    console.log("Entered:", username, password);
+console.log("Available users:", users);
+
 }
 
 function showDashboard(role) {
@@ -173,6 +179,7 @@ function showDashboard(role) {
     document.getElementById("user-dashboard").style.display = "none";
     document.getElementById("doctor-dashboard").style.display = "none";
     document.getElementById("lab-dashboard").style.display = "none";
+    document.getElementById("pharmacy-dashboard").style.display = "none"; 
     document.getElementById("role").textContent = role.charAt(0).toUpperCase() + role.slice(1);
     if (role === "user") {
         document.getElementById("user-dashboard").style.display = "block";
@@ -183,6 +190,10 @@ function showDashboard(role) {
         document.getElementById("lab-dashboard").style.display = "block";
         loadLabAppointments();
     }
+    else if (role === "pharmacy") {
+    document.getElementById("pharmacy-dashboard").style.display = "block";
+    loadPharmacyStock();
+}
 }
 
 function filterShops() {
@@ -267,7 +278,8 @@ function filterLabs() {
 
       filtered.forEach(lab => {
         const li = document.createElement("li");
-        li.innerHTML = `<strong>${lab.name}</strong><br>${lab.location}`;
+        li.innerHTML = `<strong>${lab.name}</strong><br>${lab.location}<br>
+            <button onclick="book('lab', '${lab.name}')">Book</button>`;
         resultList.appendChild(li);
       });
 
@@ -296,10 +308,12 @@ function filterLabs() {
         );
 
         const li = document.createElement("li");
-        li.innerHTML = `<strong>${lab.name}</strong> - ${lab.location}<br>
-          Tests: ${matchingTests.map(t => `${t.name} (₹${t.cost})`).join(", ")}`;
+        li.innerHTML = `
+            <strong>${lab.name}</strong> - ${lab.location}<br>
+            Tests: ${matchingTests.map(t => `${t.name} (₹${t.cost})`).join(", ")}<br>
+            <button onclick="book('lab', '${lab.name}')">Book</button>`;
         resultList.appendChild(li);
-      });
+    });
 
       if (filtered.length === 0) {
         const li = document.createElement("li");
@@ -320,8 +334,8 @@ function book(type, name) {
     }
 
     if (type === "lab") {
-        const labUser = users.find(u => u.role === "lab" && name.toLowerCase().includes(u.username.toLowerCase()));
-        assignedUsername = labUser ? labUser.username : null;
+       const lab = labs.find(l => l.name === name);
+        assignedUsername = lab ? lab.username : null;
     }
 
     const appointment = { type, name, username: assignedUsername, date, time };
@@ -329,6 +343,7 @@ function book(type, name) {
     appointments.push(appointment);
     localStorage.setItem("appointments", JSON.stringify(appointments));
     alert("Appointment booked with " + name + " on " + date + " at " + time);
+    console.log("Booked:", appointment);
 }
 
 function loadDoctorAppointments() {
@@ -336,16 +351,18 @@ function loadDoctorAppointments() {
     const appointments = JSON.parse(localStorage.getItem("appointments")) || [];
     const doctorList = document.getElementById("doctor-list");
     doctorList.innerHTML = "";
-     appointments
-        .filter(a => a.type === "doctor" && a.username === currentUser.username)
-        .forEach((app, index) => {
-            const id = `appt-${index}`;
+    appointments.forEach((app, i) => {
+        if (app.type === "doctor" && app.username === currentUser.username) {
+            const id = `appt-${i}`;
             doctorList.innerHTML += `
                 <li>
-                    <input type="checkbox" id="${id}" data-index="${index}">
+                    <input type="checkbox" id="${id}" data-index="${i}">
                     <label for="${id}">${app.name} on ${app.date} at ${app.time}</label>
                 </li>`;
-        });
+        }
+    });
+    console.log("Logged in as:", currentUser.username);
+    console.log("Stored appointments:", appointments);
 }
 
 function loadLabAppointments() {
@@ -353,11 +370,19 @@ function loadLabAppointments() {
     const appointments = JSON.parse(localStorage.getItem("appointments")) || [];
     const labList = document.getElementById("lab-list");
     labList.innerHTML = "";
-    appointments
-        .filter(a => a.type === "lab" && a.name.toLowerCase().includes(currentUser.username.toLowerCase()))
-        .forEach(app => {
-            labList.innerHTML += `<li>${app.name} on ${app.date} at ${app.time}</li>`;
-        });
+    appointments.forEach((app, i) => {
+        if (app.type === "lab" && app.username === currentUser.username) {
+            const id = `labappt-${i}`;
+            labList.innerHTML += `
+                <li>
+                    <input type="checkbox" id="${id}" data-index="${i}">
+                    <label for="${id}">${app.name} on ${app.date} at ${app.time}</label>
+                </li>`;
+        }
+    });
+
+    console.log("Lab Logged in as:", currentUser.username);
+    console.log("Lab Appointments:", appointments);
 }
 
 function updateAppointments() {
@@ -374,6 +399,94 @@ function updateAppointments() {
     localStorage.setItem("appointments", JSON.stringify(updatedAppointments));
     alert("Selected appointments removed.");
     loadDoctorAppointments(); // Refresh list
+}
+
+function updateLabAppointments() {
+    const checkboxes = document.querySelectorAll('#lab-list input[type="checkbox"]');
+    let appointments = JSON.parse(localStorage.getItem("appointments")) || [];
+    const currentUser = JSON.parse(localStorage.getItem("loggedInUser"));
+
+    const updatedAppointments = appointments.filter((appt, index) => {
+        const isMine = appt.type === "lab" && appt.username === currentUser.username;
+        const isChecked = [...checkboxes].some(cb => cb.dataset.index == index && cb.checked);
+        return !(isMine && isChecked); // Remove if it's lab's own and is checked
+    });
+
+    localStorage.setItem("appointments", JSON.stringify(updatedAppointments));
+    alert("Selected lab appointments removed.");
+    loadLabAppointments(); // Refresh lab list
+}
+
+function loadPharmacyStock() {
+    const currentUser = JSON.parse(localStorage.getItem("loggedInUser"));
+     const medicalShopsData = JSON.parse(localStorage.getItem("medicalShops")) || medicalShops;
+    const shop = medicalShops.find(s => s.username === currentUser.username);
+    const stockList = document.getElementById("pharmacy-stock-list");
+    stockList.innerHTML = "";
+
+    if (!shop) {
+        stockList.innerHTML = "<li>No stock found for this pharmacy.</li>";
+        return;
+    }
+
+    shop.medicines.forEach((med, index) => {
+        stockList.innerHTML += `
+            <li>
+                ${med.name}:
+                <input type="number" id="stock-${index}" value="${med.quantity}" min="0">
+                <button type="button" onclick="removeMedicine(${index})">Remove</button>
+            </li>`;
+    });
+        stockList.innerHTML += `
+        <li>
+            <input type="text" id="new-med-name" placeholder="Medicine Name">
+            <input type="number" id="new-med-qty" placeholder="Quantity" min="1">
+            <button type="button" onclick="addNewMedicine()">Add</button>
+        </li>`;
+  console.log("Current user:", currentUser.username);
+console.log("Shop found:", shop);
+
+}
+
+function updatePharmacyStock() {
+    const currentUser = JSON.parse(localStorage.getItem("loggedInUser"));
+    let medicalShopsData = JSON.parse(localStorage.getItem("medicalShops")) || medicalShops;
+    const shop = medicalShops.find(s => s.username === currentUser.username);
+    if (!shop) return;
+
+    shop.medicines.forEach((med, index) => {
+        const qty = parseInt(document.getElementById(`stock-${index}`).value);
+        if (!isNaN(qty)) {
+            med.quantity = qty;
+        }
+    });
+    localStorage.setItem("medicalShops", JSON.stringify(medicalShopsData));
+    alert("Stock updated successfully!");
+    loadPharmacyStock();
+}
+
+function addNewMedicine() {
+    const currentUser = JSON.parse(localStorage.getItem("loggedInUser"));
+    const shop = medicalShops.find(s => s.username === currentUser.username);
+
+    const name = document.getElementById("new-med-name").value.trim();
+    const quantity = parseInt(document.getElementById("new-med-qty").value.trim());
+
+    if (!name || isNaN(quantity) || quantity <= 0) {
+        alert("Enter valid medicine name and quantity.");
+        return;
+    }
+
+    shop.medicines.push({ name,quantity: quantity });
+    alert("Medicine added successfully!");
+    loadPharmacyStock();
+}
+
+function removeMedicine(index) {
+    const currentUser = JSON.parse(localStorage.getItem("loggedInUser"));
+    const shop = medicalShops.find(s => s.username === currentUser.username);
+    shop.medicines.splice(index, 1);
+    loadPharmacyStock();
 }
 
 function renderRegistrationFields() {

@@ -80,11 +80,25 @@
     <div id="lab-dashboard" class="hidden" style="display: none;">
         <h2>Welcome Lab</h2>
         <div id="lab-appointments">
-            <h3>Your Lab Bookings</h3>
+        <h3>Your Lab Bookings</h3>
+        <form id="lab-appointment-form">
             <ul id="lab-list"></ul>
-        </div>
+            <button type="button" onclick="updateLabAppointments()">Update</button>
+        </form>
+
     </div>
-    
+      </div> 
+       <!-- Pharmacy Dashboard --> 
+    <div id="pharmacy-dashboard" class="hidden" style="display: none;">
+    <h2>Welcome Pharmacy</h2>
+    <div id="pharmacy-stock">
+        <h3>Manage Stock</h3>
+        <form id="pharmacy-form">
+            <ul id="pharmacy-stock-list"></ul>
+            <button type="button" onclick="updatePharmacyStock()">Update Stock</button>
+        </form>
+    </div>
+  
     <script src="script.js"></script>
 </body>
 </html>
