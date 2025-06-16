@@ -74,3 +74,61 @@ textarea {
     box-sizing: border-box;
     margin-bottom: 10px;
 }
+
+#login-section,
+#registration-section {
+    background: white;
+    border: 1px solid #ccc;
+    padding: 20px;
+    margin: 20px auto;
+    max-width: 400px;
+    border-radius: 10px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+input[type="text"],
+input[type="password"],
+input[type="number"],
+input[type="date"],
+input[type="time"],
+select {
+    width: 100%;
+    box-sizing: border-box;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+}
+
+button {
+    width: 100%;
+    border-radius: 6px;
+}
+#doctor-dashboard,
+#lab-dashboard,
+#pharmacy-dashboard,
+#user-dashboard {
+    padding: 20px;
+    background: white;
+    margin-top: 30px;
+    border-radius: 10px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+}
+ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+ul li {
+    background: #f0f8ff;
+    margin: 5px 0;
+    padding: 10px;
+    border-radius: 6px;
+}
+#booking-popup {
+    width: 300px;
+    border-radius: 10px;
+    text-align: center;
+}
+
+#booking-popup input {
+    width: 90%;
+}
+
