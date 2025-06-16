@@ -16,6 +16,21 @@
         <button onclick="login()">Login</button>
     </div>
 
+    <!-- Registration Section -->
+<div id="registration-section">
+    <h2>Register</h2>
+    <select id="reg-role" onchange="renderRegistrationFields()">
+        <option value="">Select Role</option>
+        <option value="user">User</option>
+        <option value="doctor">Doctor</option>
+        <option value="lab">Lab</option>
+        <option value="pharmacy">Pharmacy</option>
+    </select>
+
+    <div id="registration-fields"></div>
+    <button onclick="register()">Register</button>
+</div>
+
     <!-- Dashboard Section -->
     <div id="user-dashboard" class="hidden" style="display: none;">
         <h2>Welcome <span id="role"></span></h2>
@@ -55,7 +70,9 @@
         <h2>Welcome Doctor</h2>
         <div id="doctor-appointments">
             <h3>Your Appointments</h3>
+            <form id="appointment-form">
             <ul id="doctor-list"></ul>
+            <button type="button" onclick="updateAppointments()">Update</button>
         </div>
     </div>
 

@@ -52,7 +52,7 @@ const medicalShops = [
 ];
 
 const doctors = [
-    { name: "Dr. Asha Kulkarni", specialization: "Pediatrician", location: "Opp. District Court, Malmaddi, Dharwad" },
+    { name: "Dr. Asha Kulkarni", specialization: "Pediatrician", location: "Opp. District Court, Malmaddi, Dharwad", username : "doctor1" },
     { name: "Dr. Nitin Desai", specialization: "Orthopedic", location: "Near Civil Hospital, Line Bazaar, Dharwad" },
     { name: "Dr. Shilpa Patil", specialization: "Gynecologist", location: "KCD Circle, Vidyagiri, Dharwad" },
     { name: "Dr. Anand Joshi", specialization: "Neurologist", location: "Dadar West, Mumbai" },
@@ -169,6 +169,7 @@ function login() {
 
 function showDashboard(role) {
     document.getElementById("login-section").style.display = "none";
+    document.getElementById("registration-section").style.display = "none";
     document.getElementById("user-dashboard").style.display = "none";
     document.getElementById("doctor-dashboard").style.display = "none";
     document.getElementById("lab-dashboard").style.display = "none";
@@ -310,7 +311,20 @@ function filterLabs() {
 function book(type, name) {
     const date = prompt("Enter appointment date (YYYY-MM-DD):");
     const time = prompt("Enter time (HH:MM):");
-    const appointment = { type, name, date, time };
+   let assignedUsername = null;
+
+    if (type === "doctor") {
+        const doctor = doctors.find(d => d.name === name);
+        //const doctorUser = users.find(u => u.role === "doctor" && name.toLowerCase().includes(u.username.toLowerCase()));
+        assignedUsername = doctor ? doctor.username : null;
+    }
+
+    if (type === "lab") {
+        const labUser = users.find(u => u.role === "lab" && name.toLowerCase().includes(u.username.toLowerCase()));
+        assignedUsername = labUser ? labUser.username : null;
+    }
+
+    const appointment = { type, name, username: assignedUsername, date, time };
     let appointments = JSON.parse(localStorage.getItem("appointments")) || [];
     appointments.push(appointment);
     localStorage.setItem("appointments", JSON.stringify(appointments));
@@ -322,10 +336,15 @@ function loadDoctorAppointments() {
     const appointments = JSON.parse(localStorage.getItem("appointments")) || [];
     const doctorList = document.getElementById("doctor-list");
     doctorList.innerHTML = "";
-    appointments
-        .filter(a => a.type === "doctor" && a.name.toLowerCase().includes(currentUser.username.toLowerCase()))
-        .forEach(app => {
-            doctorList.innerHTML += `<li>${app.name} on ${app.date} at ${app.time}</li>`;
+     appointments
+        .filter(a => a.type === "doctor" && a.username === currentUser.username)
+        .forEach((app, index) => {
+            const id = `appt-${index}`;
+            doctorList.innerHTML += `
+                <li>
+                    <input type="checkbox" id="${id}" data-index="${index}">
+                    <label for="${id}">${app.name} on ${app.date} at ${app.time}</label>
+                </li>`;
         });
 }
 
@@ -339,4 +358,125 @@ function loadLabAppointments() {
         .forEach(app => {
             labList.innerHTML += `<li>${app.name} on ${app.date} at ${app.time}</li>`;
         });
+}
+
+function updateAppointments() {
+    const checkboxes = document.querySelectorAll('#doctor-list input[type="checkbox"]');
+    let appointments = JSON.parse(localStorage.getItem("appointments")) || [];
+
+    const currentUser = JSON.parse(localStorage.getItem("loggedInUser"));
+    const updatedAppointments = appointments.filter((appt, index) => {
+        const isMine = appt.type === "doctor" && appt.username === currentUser.username;
+        const isChecked = [...checkboxes].some(cb => cb.dataset.index == index && cb.checked);
+        return !(isMine && isChecked); // Keep all except checked ones
+    });
+
+    localStorage.setItem("appointments", JSON.stringify(updatedAppointments));
+    alert("Selected appointments removed.");
+    loadDoctorAppointments(); // Refresh list
+}
+
+function renderRegistrationFields() {
+    const role = document.getElementById("reg-role").value;
+    const container = document.getElementById("registration-fields");
+
+    container.innerHTML = "";
+
+    if (!role) return;
+
+    // Common fields
+    container.innerHTML += '<input type="text" id="reg-username" placeholder="Username">';
+    container.innerHTML += '<input type="password" id="reg-password" placeholder="Password">';
+
+    if (role === "doctor") {
+        container.innerHTML += '<input type="text" id="reg-name" placeholder="Doctor Name">';
+        container.innerHTML += '<input type="text" id="reg-specialization" placeholder="Specialization">';
+        container.innerHTML += '<input type="text" id="reg-location" placeholder="Location">';
+    } else if (role === "lab") {
+        container.innerHTML += '<input type="text" id="reg-name" placeholder="Lab Name">';
+        container.innerHTML += '<input type="text" id="reg-location" placeholder="Location">';
+        container.innerHTML += '<textarea id="reg-tests" placeholder="Enter test name and cost (e.g. CBC:300, LFT:600)"></textarea>';
+    } else if (role === "pharmacy") {
+        container.innerHTML += '<input type="text" id="reg-name" placeholder="Pharmacy Name">';
+        container.innerHTML += '<input type="text" id="reg-location" placeholder="Location">';
+        container.innerHTML += '<textarea id="reg-medicines" placeholder="Enter medicine name and quantity (e.g. Crocin:20, Dolo:15)"></textarea>';
+    }
+}
+
+function register() {
+    const role = document.getElementById("reg-role").value;
+    const username = document.getElementById("reg-username")?.value.trim();
+    const password = document.getElementById("reg-password")?.value.trim();
+
+    if (!role || !username || !password) {
+        alert("Username, password and role are required.");
+        return;
+    }
+
+    // Check if user exists
+    if (users.find(u => u.username === username)) {
+        alert("Username already exists.");
+        return;
+    }
+
+    users.push({ username, password, role });
+
+    if (role === "doctor") {
+        const name = document.getElementById("reg-name").value.trim();
+        const specialization = document.getElementById("reg-specialization").value.trim();
+        const location = document.getElementById("reg-location").value.trim();
+        if (!name || !specialization || !location) {
+            alert("All doctor details are required.");
+            return;
+        }
+        doctors.push({ name, specialization, location, username });
+
+    } else if (role === "lab") {
+        const name = document.getElementById("reg-name").value.trim();
+        const location = document.getElementById("reg-location").value.trim();
+        const testStr = document.getElementById("reg-tests").value.trim();
+
+        if (!name || !location || !testStr) {
+            alert("All lab details are required.");
+            return;
+        }
+
+        const tests = testStr.split(",").map(item => {
+            const [name, cost] = item.split(":").map(s => s.trim());
+            return { name, cost: parseFloat(cost) };
+        });
+
+        if (tests.some(t => !t.name || isNaN(t.cost))) {
+            alert("Invalid test format.");
+            return;
+        }
+
+        labs.push({ name, location, tests });
+
+    } else if (role === "pharmacy") {
+        const name = document.getElementById("reg-name").value.trim();
+        const location = document.getElementById("reg-location").value.trim();
+        const medStr = document.getElementById("reg-medicines").value.trim();
+
+        if (!name || !location || !medStr) {
+            alert("All pharmacy details are required.");
+            return;
+        }
+
+        const medicines = medStr.split(",").map(item => {
+            const [name, quantity] = item.split(":").map(s => s.trim());
+            return { name, quantity: parseInt(quantity) };
+        });
+
+        if (medicines.some(m => !m.name || isNaN(m.quantity))) {
+            alert("Invalid medicine format.");
+            return;
+        }
+
+        medicalShops.push({ name, location, medicines });
+    }
+
+    alert("Registration successful!");
+    document.getElementById("registration-fields").innerHTML = "";
+    document.getElementById("reg-role").value = "";
 }
